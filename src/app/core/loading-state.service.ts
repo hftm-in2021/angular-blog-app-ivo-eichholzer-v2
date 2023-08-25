@@ -11,7 +11,7 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class LoadingService {
+export class LoadingStateService {
   #state$ = new BehaviorSubject(false);
   state$ = this.#state$.asObservable();
 
@@ -32,7 +32,8 @@ export class LoadingService {
       }
     });
   }
-  setLoadingState(value: boolean): void {
+
+  setLoadingState(value: boolean) {
     this.#state$.next(value);
   }
 }

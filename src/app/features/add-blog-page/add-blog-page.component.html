@@ -1,40 +1,41 @@
 <div class="blog-container" *ngIf="blogStateService.state$ | async; let state">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="blog-input">
-      <div class="error-message" *ngIf="state.error" color="warns">
-        Blog couldn't be saved. Please try it again.
+      <div class="error-message" *ngIf="state.error" color="warn">
+        Oups, der Blog konnte nicht gespeichert werden. Bitte versuchen Sie es
+        später nochmals.
       </div>
       <button
         type="submit"
-        [disabled]="!form.valid"
         class="submit-button"
+        [disabled]="!form.valid"
         mat-raised-button
         color="primary"
       >
-        Publish Blog
+        Publish blog
       </button>
       <button
         type="reset"
         mat-raised-button
         color="secondary"
-        (click)="form.reset(); (false)"
+        (click)="form.reset()"
       >
         Reset
       </button>
       <mat-form-field appearance="fill">
-        <mat-label>Titel</mat-label>
+        <mat-label>Title</mat-label>
         <input matInput formControlName="title" />
         <mat-error>
-          <span *ngIf="form.get('title')?.errors?.['required']"
-            >Title is required</span
+          <span *ngIf="form?.get('title')?.errors?.['required']"
+            >Title should not be empty</span
           >
           <span *ngIf="form?.controls?.['title']?.errors?.['pattern']"
-            >Not a valid title</span
+            >Not a valid Title</span
           >
-          <span *ngIf="form?.controls?.['title']?.errors?.['custom']"
+          <span *ngIf="form?.get('title')?.errors?.['custom']"
             >Custom Validator</span
           >
-          <span *ngIf="form?.controls?.['title']?.errors?.['customAsync']"
+          <span *ngIf="form?.get('title')?.errors?.['customAsync']"
             >Custom Async Validator</span
           >
         </mat-error>
@@ -42,11 +43,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Tell your story...</mat-label>
         <textarea matInput rows="20" formControlName="content"></textarea>
-        <mat-error>
-          <span *ngIf="form.get('content')?.errors?.['required']"
-            >Content is required</span
-          >
-        </mat-error>
+        <mat-error>Content should not be empty</mat-error>
       </mat-form-field>
     </div>
   </form>
