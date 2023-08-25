@@ -1,1 +1,53 @@
-<p>add-blog-page works!</p>
+<div class="blog-container" *ngIf="blogStateService.state$ | async; let state">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="blog-input">
+      <div class="error-message" *ngIf="state.error" color="warns">
+        Blog couldn't be saved. Please try it again.
+      </div>
+      <button
+        type="submit"
+        [disabled]="!form.valid"
+        class="submit-button"
+        mat-raised-button
+        color="primary"
+      >
+        Publish Blog
+      </button>
+      <button
+        type="reset"
+        mat-raised-button
+        color="secondary"
+        (click)="form.reset(); (false)"
+      >
+        Reset
+      </button>
+      <mat-form-field appearance="fill">
+        <mat-label>Titel</mat-label>
+        <input matInput formControlName="title" />
+        <mat-error>
+          <span *ngIf="form.get('title')?.errors?.['required']"
+            >Title is required</span
+          >
+          <span *ngIf="form?.controls?.['title']?.errors?.['pattern']"
+            >Not a valid title</span
+          >
+          <span *ngIf="form?.controls?.['title']?.errors?.['custom']"
+            >Custom Validator</span
+          >
+          <span *ngIf="form?.controls?.['title']?.errors?.['customAsync']"
+            >Custom Async Validator</span
+          >
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Tell your story...</mat-label>
+        <textarea matInput rows="20" formControlName="content"></textarea>
+        <mat-error>
+          <span *ngIf="form.get('content')?.errors?.['required']"
+            >Content is required</span
+          >
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+</div>
