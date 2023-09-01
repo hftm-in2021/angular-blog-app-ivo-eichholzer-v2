@@ -5,7 +5,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthConfigModule } from './auth/auth-config.module';
-import { HeaderComponent } from './header/header.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
@@ -15,7 +14,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 
 @NgModule({
-  declarations: [HeaderComponent, SidebarComponent],
+  declarations: [SidebarComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -30,6 +29,6 @@ import { MatListModule } from '@angular/material/list';
     MatSidenavModule,
     MatListModule,
   ],
-  exports: [HeaderComponent, SidebarComponent],
+  exports: [SidebarComponent],
 })
 export class CoreModule {}

@@ -1,17 +1,26 @@
-import {Component, EventEmitter, inject, Input, OnInit, Output} from '@angular/core';
-import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
-import {Observable, ReplaySubject} from 'rxjs';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  inject,
+} from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Observable, ReplaySubject } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import {LoginResponse} from "angular-auth-oidc-client";
-import {hasRole} from "../auth/jwt";
+import { LoginResponse } from 'angular-auth-oidc-client';
+import { hasRole } from '../auth/jwt';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  styleUrls: ['./sidebar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidebarComponent{
-  isMobile = false;
+export class SidebarComponent {
+  private breakpointObserver = inject(BreakpointObserver);
+
   initials$: Observable<string>;
   loginResponse$ = new ReplaySubject<LoginResponse | null>();
 
@@ -38,12 +47,11 @@ export class SidebarComponent{
       map((response) => hasRole('user', response?.accessToken))
     );
   }
-  private breakpointObserver = inject(BreakpointObserver);
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Handset)
     .pipe(
-      map(result => result.matches),
+      map((result) => result.matches),
       shareReplay()
     );
-
 }
